@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login extends MY_Controller {
+class Welcome extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -20,6 +20,6 @@ class Login extends MY_Controller {
 	 */
 	public function index()
 	{
-		echo 1;die;
+		$this->load->view('welcome_message');
 	}
 }
