@@ -10,5 +10,5 @@ $config['cache_dir'] = APPPATH . 'views/cache';
 $config['config_dir'] = APPPATH . 'views/config';
 $config['use_sub_dirs'] = false;
 //子目录变量(是否在缓存文件夹中生成子目录)
-$config['left_delimiter'] = '{';
-$config['right_delimiter'] = '}';
+$config['left_delimiter'] = '<{';
+$config['right_delimiter'] = '}>';

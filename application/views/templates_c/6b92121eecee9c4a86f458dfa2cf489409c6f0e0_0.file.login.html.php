@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-04-08 09:43:56
+/* Smarty version 3.1.33, created on 2019-04-10 08:03:36
   from 'C:\Users\nginx-1.14.2\html\bysj\application\views\templates\admin\login.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cab17dcedf280_57435224',
+  'unifunc' => 'content_5cada3580f08d8_80542130',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6b92121eecee9c4a86f458dfa2cf489409c6f0e0' => 
     array (
       0 => 'C:\\Users\\nginx-1.14.2\\html\\bysj\\application\\views\\templates\\admin\\login.html',
-      1 => 1554716616,
+      1 => 1554882957,
       2 => 'file',
     ),
   ),
@@ -20,12 +20,12 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cab17dcedf280_57435224 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cada3580f08d8_80542130 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <html  class="x-admin-sm">
 <head>
 	<meta charset="UTF-8">
-	<title>后台登录-X-admin2.1</title>
+	<title>毕业设计管理系统后台登录</title>
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -49,7 +49,7 @@ function content_5cab17dcedf280_57435224 (Smarty_Internal_Template $_smarty_tpl)
 <body class="login-bg">
     
     <div class="login layui-anim layui-anim-up">
-        <div class="message">x-admin2.0-管理登录</div>
+        <div class="message">毕业设计管理管理系统后台登录</div>
         <div id="darkbannerwrap"></div>
         
         <form method="post" class="layui-form" >
@@ -67,14 +67,10 @@ function content_5cab17dcedf280_57435224 (Smarty_Internal_Template $_smarty_tpl)
         $(function  () {
             layui.use('form', function(){
               var form = layui.form;
-                // layer.msg('玩命卖萌中', function(){
-                //   //关闭后的操作
-                //   });
                 //监听提交
                 form.on('submit(login)', function(data){
-                    // alert(888)
                     $.ajax({
-                        url:'/admin/login/dologin',
+                        url:'/admin/login/dologin?act=do',
                         data:{
                             'username': $('#username').val(),
                             'password':$('#password').val()
@@ -83,34 +79,22 @@ function content_5cab17dcedf280_57435224 (Smarty_Internal_Template $_smarty_tpl)
                         type:'POST',
                         success:function(data){
                             console.log(data);
-                            // layer.msg(JSON.stringify(data.field),function(){
-                            //     location.href='index.html'
-                            // });
+                            if (data.code == 1) {
+                                layer.msg('登录成功', function () {
+                                    location.href = '/admin/home/index';
+                                });
+                            }else{
+                                layer.msg(data.message, function () {});
+                            }
                         }
                     });
                     return false;
                 });
             });
         })
-
-        
     <?php echo '</script'; ?>
 >
-
-    
     <!-- 底部结束 -->
-    <?php echo '<script'; ?>
->
-    //百度统计可去掉
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-    <?php echo '</script'; ?>
->
 </body>
 </html><?php }
 }
