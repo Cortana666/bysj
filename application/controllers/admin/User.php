@@ -21,25 +21,38 @@ class User extends MY_Controller {
 			}
 
 			$this->load->model('Model_admin', 'oAdmin');
-			$aAdmin = $this->oAdmin->get($data);
+			$aAdmin = $this->oAdmin->get(array('username' => $data['username']));
 
-			$result['code'] = 1;
-			if ($aAdmin) {
-				$this->load->library('session');
-				$aSession['user'] = array(
-					'username' => $aAdmin['username'],
-					'realname' => $aAdmin['realname']
-				);
-				$this->session->set_userdata($aSession);
-				$result['url'] = '/admin/home/index';
-			}else{
+			if (!$aAdmin) {
 				$result['code'] = 2;
-				$result['message'] = '账号密码不匹配';
+				$result['message'] = '账号不存在';
+			}else{
+				if (md5(md5($data['password']).$aAdmin['salt']) != $aAdmin['password']) {
+					$result['code'] = 2;
+					$result['message'] = '密码错误';
+				}else{
+					$this->load->library('session');
+					$aSession['user']['username'] = $aAdmin['username'];
+					$aSession['user']['realname'] = $aAdmin['realname'];
+					if ($aAdmin['type'] > 0) {
+						$aSession['user']['col_id'] = $aAdmin['type'];
+					}
+					$this->session->set_userdata($aSession);
+
+					$result['code'] = 1;
+					$result['url'] = '/admin/home/index';
+				}
 			}
 
 			echo json_encode($result);exit;
 		}
 		
 		$this->display('admin/login.html');
+	}
+
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		header("Location: /admin/user/login");
 	}
 }

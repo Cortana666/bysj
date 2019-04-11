@@ -37,16 +37,13 @@
               var form = layui.form;
                 //监听提交
                 form.on('submit(login)', function(data){
+                    var formData = $(".layui-form").serialize(true);
                     $.ajax({
                         url:'/admin/user/login?act=do',
-                        data:{
-                            'username': $('#username').val(),
-                            'password':$('#password').val()
-                        },
+                        data: formData,
                         dataType:'JSON',
                         type:'POST',
                         success:function(data){
-                            console.log(data);
                             if (data.code == 1) {
                                 layer.msg('登录成功', function () {
                                     location.href = '/admin/home/index';

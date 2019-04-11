@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-04-10 08:03:36
+/* Smarty version 3.1.33, created on 2019-04-11 11:14:14
   from 'C:\Users\nginx-1.14.2\html\bysj\application\views\templates\admin\login.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cada3580f08d8_80542130',
+  'unifunc' => 'content_5caeb10673c2c4_63074514',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6b92121eecee9c4a86f458dfa2cf489409c6f0e0' => 
     array (
       0 => 'C:\\Users\\nginx-1.14.2\\html\\bysj\\application\\views\\templates\\admin\\login.html',
-      1 => 1554882957,
+      1 => 1554902338,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cada3580f08d8_80542130 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5caeb10673c2c4_63074514 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <html  class="x-admin-sm">
 <head>
@@ -69,16 +69,13 @@ function content_5cada3580f08d8_80542130 (Smarty_Internal_Template $_smarty_tpl)
               var form = layui.form;
                 //监听提交
                 form.on('submit(login)', function(data){
+                    var formData = $(".layui-form").serialize(true);
                     $.ajax({
-                        url:'/admin/login/dologin?act=do',
-                        data:{
-                            'username': $('#username').val(),
-                            'password':$('#password').val()
-                        },
+                        url:'/admin/user/login?act=do',
+                        data: formData,
                         dataType:'JSON',
                         type:'POST',
                         success:function(data){
-                            console.log(data);
                             if (data.code == 1) {
                                 layer.msg('登录成功', function () {
                                     location.href = '/admin/home/index';

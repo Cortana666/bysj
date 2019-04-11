@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-04-10 08:22:27
+/* Smarty version 3.1.33, created on 2019-04-10 19:49:50
   from 'C:\Users\nginx-1.14.2\html\bysj\application\views\templates\admin\menu.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cada7c31ab978_98213435',
+  'unifunc' => 'content_5cadd85ee3dce8_95422194',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7972f054bbf8d7d87cb27ebc97ddfff0f4608693' => 
     array (
       0 => 'C:\\Users\\nginx-1.14.2\\html\\bysj\\application\\views\\templates\\admin\\menu.html',
-      1 => 1554884335,
+      1 => 1554896983,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cada7c31ab978_98213435 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cadd85ee3dce8_95422194 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!-- 左侧菜单开始 -->
 <div class="left-nav">
     <div id="side-nav">
@@ -33,23 +33,27 @@ function content_5cada7c31ab978_98213435 (Smarty_Internal_Template $_smarty_tpl)
                 </a>
                 <ul class="sub-menu">
                     <li date-refresh="1">
-                        <a _href="member-list.html">
+                        <a _href="/admin/admin/lists">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>管理员用户管理</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="member-list1.html">
+                        <a _href="/admin/teacher/lists">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>导师账号管理</cite>
-
                         </a>
                     </li>
                     <li date-refresh="1">
-                        <a _href="member-del.html">
+                        <a _href="/admin/student/lists">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>学生账号管理</cite>
-
+                        </a>
+                    </li>
+                    <li date-refresh="1">
+                        <a _href="/admin/web/set">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>提交及审核时间设置</cite>
                         </a>
                     </li>
                     <!-- <li>
