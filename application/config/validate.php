@@ -3,7 +3,7 @@
         array(
             'field' => 'username',
             'label' => 'username',
-            'rules' => 'trim|required|alpha_numeric',
+            'rules' => 'trim|required',
             'errors' => array(
                 'required' => '用户名不能为空',
             )
@@ -22,9 +22,17 @@
         array(
             'field' => 'username',
             'label' => 'username',
-            'rules' => 'trim|required|alpha_numeric',
+            'rules' => 'trim|required',
             'errors' => array(
                 'required' => '用户名不能为空',
+            )
+        ),
+        array(
+            'field' => 'realname',
+            'label' => 'realname',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '姓名不能为空',
             )
         ),
         array(
@@ -73,6 +81,14 @@
             )
         ),
         array(
+            'field' => 'realname',
+            'label' => 'realname',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '姓名不能为空',
+            )
+        ),
+        array(
             'field' => 'password',
             'label' => 'password',
             'rules' => 'trim'
@@ -100,6 +116,25 @@
             'rules' => 'trim|required',
             'errors' => array(
                 'required' => '角色未选择'
+            )
+        )
+    );
+
+    $config['status_change'] = array(
+        array(
+            'field' => 'id',
+            'label' => 'id',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '参数错误'
+            )
+        ),
+        array(
+            'field' => 'status',
+            'label' => 'status',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '状态参数错误'
             )
         )
     );

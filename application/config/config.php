@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+$config['base_url'] = 'http://39.106.45.49/';
 
 /*
 |--------------------------------------------------------------------------
@@ -524,6 +524,9 @@ $config['proxy_ips'] = '';
 
 
 // 分也配置
+$config['app_page']['uri_segment'] = "4";
+$config['app_page']['num_links'] = "2";
+$config['app_page']['reuse_query_string'] = TRUE; 
 $config['app_page']['cur_tag_open'] = '<span class="current">';
 $config['app_page']['cur_tag_close'] = '</span>';
 $config['app_page']['last_link'] = '&gt;&gt;';

@@ -13,6 +13,8 @@ class MY_controller extends CI_Controller
             }
         }
 
+        $this->load->model('Form', 'oForm');
+
     }
     public function assign($key, $val)
     {
@@ -21,5 +23,21 @@ class MY_controller extends CI_Controller
     public function display($html)
     {
         $this->ci_smarty->display($html);
+    }
+    public function success($message = '', $url = '', $data = array())
+    {
+        $result['code'] = 1;
+        $result['message'] = $message;
+        $result['url'] = $url;
+        $result['data'] = $data;
+        echo json_encode($result);exit;
+    }
+    public function error($message = '', $url = '', $data = array())
+    {
+        $result['code'] = 2;
+        $result['message'] = $message;
+        $result['url'] = $url;
+        $result['data'] = $data;
+        echo json_encode($result);exit;
     }
 }
