@@ -24,8 +24,14 @@ class Model_admin extends CI_Model {
         if (!empty($val['status'])) {
             $this->db->where('status', $val['status']);
         }
+        if (!empty($val['type'])) {
+            $this->db->where('type', $val['type']);
+        }
         if (!empty($val['where'])) {
             $this->db->where($val['where']);
+        }
+        if (!empty($val['select'])) {
+            $this->db->select($val['select']);
         }
     }
 

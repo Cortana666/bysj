@@ -36,12 +36,17 @@ class User extends MY_Controller {
 						$result['message'] = '密码错误';
 					}else{
 						$this->load->library('session');
+						$aSession['user']['id'] = $aAdmin['id'];
 						$aSession['user']['username'] = $aAdmin['username'];
 						$aSession['user']['realname'] = $aAdmin['realname'];
 						if ($aAdmin['type'] > 0) {
 							$aSession['user']['col_id'] = $aAdmin['type'];
+						}else{
+							$aSession['user']['type'] = $aAdmin['type'];
 						}
 						$this->session->set_userdata($aSession);
+
+						$this->oLog->add(array('content'=>'用户登录操作'));
 
 						$result['code'] = 1;
 						$result['url'] = '/admin/home/index';

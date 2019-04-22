@@ -10,9 +10,6 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
-		if ($this->input->get('user') == 'admin') {
-			redirect(base_url().'admin/home/index');
-		}
 		redirect(base_url().'web/home/index');
 	}
 }

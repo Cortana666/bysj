@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-04-17 19:09:23
+/* Smarty version 3.1.33, created on 2019-04-18 11:22:44
   from 'C:\Users\nginx-1.14.2\html\bysj\application\views\templates\admin\admin_lsits.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cb7096379f288_17257803',
+  'unifunc' => 'content_5cb7ed847cb1e3_69309195',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '00236532d2dbea86b09f6c63f68eeca7c8a6080c' => 
     array (
       0 => 'C:\\Users\\nginx-1.14.2\\html\\bysj\\application\\views\\templates\\admin\\admin_lsits.html',
-      1 => 1555499355,
+      1 => 1555557680,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cb7096379f288_17257803 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cb7ed847cb1e3_69309195 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html class="x-admin-sm">
 
@@ -84,14 +84,11 @@ function content_5cb7096379f288_17257803 (Smarty_Internal_Template $_smarty_tpl)
  条</span>
         </xblock>
         
-        <table class="layui-table">
+        <table class="layui-table x-admin">
             <thead>
                 <tr>
                     <th>
-                        
-                        <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox"><form class="layui-form">
-                            <input lay-filter="allid" type="checkbox" lay-skin="primary"></form>
-                        </div>
+                        <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
                     </th>
                     <th>ID</th>
                     <th>用户名</th>
@@ -109,9 +106,8 @@ foreach ($_from as $_smarty_tpl->tpl_vars['item']->value) {
 ?>
                     <tr>
                         <td>
-                            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox"><form class="layui-form">
-                            <input type="checkbox" lay-skin="primary" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
-"></form></div>
+                            <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+'><i class="layui-icon">&#xe605;</i></div>
                         </td>
                         <td>
                             <?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
@@ -178,21 +174,6 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?> </tbody> </tabl
     <?php echo '<script'; ?>
 >
 
-        layui.use(['form', 'layer'], function () {
-                $ = layui.jquery;
-                var form = layui.form
-                    , layer = layui.layer;
-
-            form.on('checkbox(allid)', function (data) {
-                if (data.elem.checked) {
-                    $('.layui-table tbody input').prop('checked', 'checked');
-                } else {
-                    $('.layui-table tbody input').prop('checked', '');
-                }
-                form.render();
-            });
-        });
-
         /*用户-停用*/
         function member_stop(obj, id) {
             layer.confirm('确认要更改状态吗？', function (index) {
@@ -207,13 +188,13 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?> </tbody> </tabl
                         type: 'POST',
                         success: function (data) {
                             if (data.code == 1) {
-                                $(obj).attr('title', '启用')
+                                $(obj).attr('title', '停用')
                                 $(obj).find('i').html('&#xe601;');
 
                                 $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
                                 layer.msg('已启用!', { icon: 1, time: 1000 });
                             } else {
-                                layer.msg(data.message, { icon: 1, time: 1000 });
+                                layer.msg(data.message, { icon: 2, time: 1000 });
                             }
                         }
                     });
@@ -227,13 +208,13 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?> </tbody> </tabl
                         type: 'POST',
                         success: function (data) {
                             if (data.code == 1) {
-                                $(obj).attr('title', '停用')
+                                $(obj).attr('title', '启用')
                                 $(obj).find('i').html('&#xe62f;');
 
                                 $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
                                 layer.msg('已停用!', { icon: 2, time: 1000 });
                             } else {
-                                layer.msg(data.message, { icon: 1, time: 1000 });
+                                layer.msg(data.message, { icon: 2, time: 1000 });
                             }
                         }
                     });
@@ -266,17 +247,10 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?> </tbody> </tabl
             });
         }
 
-
-
         function delAll(argument) {
-            var checks = $('.checks');
-            var data = '';
-            for (let index = 0; index < checks.length; index++) {
-                if (checks[index].checked) {
-                    data += ','+checks[index].value;
-                }
-            }
-            
+
+            var data = tableCheck.getData();
+
             if (data) {
                 layer.confirm('确认要删除吗？', function (index) {
                     //捉到所有被选中的，发异步进行删除
@@ -287,18 +261,18 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?> </tbody> </tabl
                         type: 'POST',
                         success: function (data) {
                             if (data.code == 1) {
-                                layer.alert("已删除", { icon: 6 }, function () {
-                                    x_admin_father_reload();
-                                });
+                                layer.msg('删除成功', { icon: 1 });
+                                $(".layui-form-checked").not('.header').parents('tr').remove();
                             } else {
-                                layer.msg(data.message, { icon: 1, time: 1000 });
+                                layer.msg(data.message, { icon: 2, time: 1000 });
                             }
                         }
                     });
+                    
                 });
-            }else{
+            } else {
                 layer.msg('未勾选', { icon: 2 });
-            }
+            } 
         }
     <?php echo '</script'; ?>
 >

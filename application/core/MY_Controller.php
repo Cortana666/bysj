@@ -14,6 +14,7 @@ class MY_controller extends CI_Controller
         }
 
         $this->load->model('Form', 'oForm');
+        $this->load->model('Model_log', 'oLog');
 
     }
     public function assign($key, $val)
