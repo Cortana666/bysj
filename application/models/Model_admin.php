@@ -59,7 +59,11 @@ class Model_admin extends CI_Model {
     public function add($val = array())
 	{
         $val['create_time'] = date('Y-m-d H:i:s');
-        return $this->db->insert('admin', $val);
+        if ($this->db->insert('admin', $val)) {
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
     }
     
     public function delete($val = array())

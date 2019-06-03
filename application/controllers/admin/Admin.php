@@ -59,6 +59,9 @@ class Admin extends MY_Controller {
 			if (!$aAdmin) {
 				$this->error('添加失败');
 			}
+
+			$this->oLog->add(array('content'=>'添加管理员账号['.$aAdmin.']'.$aReceive['username']));
+
 			$this->success('添加成功');
 		}
 

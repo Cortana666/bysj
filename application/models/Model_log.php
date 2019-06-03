@@ -38,24 +38,9 @@ class Model_log extends CI_Model {
         }
     }
 
-	public function get($val = array())
+	public function top($val = array())
 	{
         $this->_init($val);
-        return $this->db->get('log')->row_array();
-    }
-    
-    public function count($val = array())
-	{
-        $this->_init($val);
-        $this->db->select('count(*) as count');
-        return $this->db->get('log')->row_array()['count'];
-    }
-    
-    public function lists($val = array())
-	{
-        $this->_init($val);
-        
-        $this->db->limit($this->pagination->per_page, $this->uri->segment(4));
         return $this->db->get('log')->result_array();
     }
     
@@ -70,17 +55,5 @@ class Model_log extends CI_Model {
         $val['ipaddress'] = $this->input->ip_address();                
         $val['time'] = date('Y-m-d H:i:s');
         return $this->db->insert('log', $val);
-    }
-    
-    public function delete($val = array())
-	{
-        $this->_init($val);
-        return $this->db->delete('log');
-    }
-    
-    public function update($val = array())
-	{
-        $this->db->where('id', $val['id']);
-        return $this->db->update('log', $val);
     }
 }
