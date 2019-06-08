@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-05-28 09:37:13
+/* Smarty version 3.1.33, created on 2019-06-03 14:55:32
   from 'C:\Users\nginx-1.14.2\html\bysj\application\views\templates\admin\menu.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cec90c9420b84_98319025',
+  'unifunc' => 'content_5cf4c46439b0d1_94339357',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7972f054bbf8d7d87cb27ebc97ddfff0f4608693' => 
     array (
       0 => 'C:\\Users\\nginx-1.14.2\\html\\bysj\\application\\views\\templates\\admin\\menu.html',
-      1 => 1558491892,
+      1 => 1559535957,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5cec90c9420b84_98319025 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cf4c46439b0d1_94339357 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!-- 左侧菜单开始 -->
 <div class="left-nav">
     <div id="side-nav">
