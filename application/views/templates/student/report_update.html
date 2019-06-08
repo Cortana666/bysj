@@ -7,12 +7,12 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <link rel="stylesheet" href="/public/static/admin/css/font.css">
-    <link rel="stylesheet" href="/public/static/admin/css/xadmin.css">
+    <link rel="stylesheet" href="/public/static/css/font.css">
+    <link rel="stylesheet" href="/public/static/css/xadmin.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/public/static/admin/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/public/static/admin/js/xadmin.js"></script>
-    <script type="text/javascript" src="/public/static/admin/js/cookie.js"></script>
+    <script type="text/javascript" src="/public/static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/public/static/js/xadmin.js"></script>
+    <script type="text/javascript" src="/public/static/js/cookie.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -23,13 +23,13 @@
   <body>
     <div class="x-nav">
       <span class="layui-breadcrumb">
-        <a href="">首页</a>
-        <a href="">演示</a>
+        <a href="">材料提交管理</a>
+        <a href="/admin/teacher/lists">开题报告管理</a>
         <a>
-          <cite>导航元素</cite></a>
+          <cite>提交</cite></a>
       </span>
       <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
-        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
     </div>
     <div class="x-body">
       <div class="layui-row">
@@ -39,6 +39,7 @@
           </fieldset>
           
           <div class="layui-upload">
+            <button type="button" class="layui-btn" id="template">下载模板</button>
             <button type="button" class="layui-btn layui-btn-normal" id="choose">选择文件</button>
             <button type="button" class="layui-btn" id="submit">开始上传</button>
           </div>
@@ -47,7 +48,7 @@
           </fieldset>
         </form>
       </div>
-      <blockquote class="layui-elem-quote"> </blockquote>
+      <blockquote class="layui-elem-quote"></blockquote>
       <pre class="layui-code" lay-title="JavaScript" lay-skin="notepad">
           
       </pre>
@@ -58,16 +59,27 @@
             , upload = layui.upload;
           upload.render({
               elem: '#choose'
-              , url: '/admin/teacher/import?act=do'
+              , url: '/student/report/update?act=do'
               , auto: false
-              , exts: 'xls|xlsx'
+              , exts: 'doc|docx'
               , size: 10240 //限制文件大小，单位 KB
               //,multiple: true
               , bindAction: '#submit'
               , done: function (res) {
-                console.log(res)
+                // console.log(res)
+                if (res.code == 1) {
+                  $('.layui-elem-quote').html('上传成功');
+                  $('.layui-code').html('');
+                }else{
+                  $('.layui-elem-quote').html('上传失败');
+                  $('.layui-code').html(res.message);
+                }
               }
             });
+        });
+
+        $('#template').click(function(){
+          location.href='/student/report/add?act=template';
         });
     </script>
   </body>

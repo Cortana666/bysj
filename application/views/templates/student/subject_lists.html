@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学院管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="/public/static/css/font.css">
+    <link rel="stylesheet" href="/public/static/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/public/static/js/xadmin.js"></script>
+    <script type="text/javascript" src="/public/static/js/cookie.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="x-nav">
+        <span class="layui-breadcrumb">
+            <a href="">课题申报管理</a>
+            <a href="">课题申报管理</a>
+            <a>
+                <cite>列表</cite></a>
+        </span>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+            href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+    </div>
+    <div class="x-body">
+        <div class="layui-row">
+        </div>
+            <{if empty($aSubject)}>
+        <xblock>
+            <button class="layui-btn" onclick="x_admin_show('选择课题','/student/subject/add?type=1')"><i
+                    class="layui-icon"></i>选择教师课题</button>
+            <span class="x-right" style="line-height:40px"></span>
+            <button class="layui-btn" onclick="x_admin_show('提交课题','/student/subject/add?type=2')"><i
+                    class="layui-icon"></i>提交自命课题</button>
+            <span class="x-right" style="line-height:40px"></span>
+        </xblock>
+            <{/if}> 
+        <table class="layui-table x-admin">
+            <thead>
+                <tr>
+                    <th>题目</th>
+                    <th>性质</th>
+                    <th>来源</th>
+                    <th>是否需要</th>
+                    <th>简介</th>
+                    <th>技术说明</th>
+                    <th>审核状态</th>
+                    <{if $aSubject.status neq 3}>
+                    <th>操作</th>
+                    <{/if}>
+            </thead>
+            <tbody>
+                <{if !empty($aSubject)}>
+                    <tr>
+                        <td>
+                            <{$aSubject.title}>
+                        </td>
+                        <td>
+                            <{if $aSubject.value eq 1}>软件
+                            <{elseif $aSubject.value eq 2}>软硬件
+                            <{elseif $aSubject.value eq 3}>综合
+                            <{elseif $aSubject.value eq 4}>虚拟
+                            <{/if}>
+                        </td>
+                        <td>
+                            <{if $aSubject.source eq 1}>自选
+                            <{elseif $aSubject.source eq 2}>项目
+                            <{elseif $aSubject.source eq 3}>科研
+                            <{elseif $aSubject.source eq 4}>其他
+                            <{/if}>
+                        </td>
+                        <td>
+                            <{if $aSubject.need eq 1}>调查
+                            <{elseif $aSubject.need eq 2}>实验
+                            <{/if}>
+                        </td>
+                        <td>
+                            <{$aSubject.content}>
+                        </td>
+                        <td>
+                            <{$aSubject.technology}>
+                        </td>
+                        <td>
+                            <{if $aSubject.type eq 2}>
+                                <{if $aSubject.status eq 1}>待审核
+                                <{elseif $aSubject.status eq 2}>审核已通过
+                                <{elseif $aSubject.status eq 3}>审核未通过，请修改后重新提交
+                                <{/if}>
+                            <{else}>
+                                <{if $aSubject.check eq 1}>待审核
+                                <{elseif $aSubject.check eq 2}>审核已通过
+                                <{elseif $aSubject.check eq 3}>审核未通过，请重新选择课题
+                                <{/if}>
+                            <{/if}>
+                        </td>
+                        <{if $aSubject.status neq 3}>
+                        <td class="td-manage">
+                            <a title="编辑" onclick="x_admin_show('编辑','/student/subject/update?sub_id=<{$aSubject.sub_id}>')" href="javascript:;">
+                                <i class="layui-icon">&#xe642;</i>
+                            </a>
+                        </td>
+                        <{/if}>
+                    </tr>
+                    <{else}>
+                        <tr>
+                            <td colspan="20" style="text-align: center;">
+                                暂无数据
+                            </td>
+                        </tr>
+                        <{/if}> </tbody> </table> <div class="page">
+                            <div>
+                            </div>
+    </div>
+
+    </div>
+</body>
+
+</html>

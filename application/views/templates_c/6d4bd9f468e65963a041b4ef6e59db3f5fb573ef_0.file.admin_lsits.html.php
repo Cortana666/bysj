@@ -1,4 +1,27 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 3.1.33, created on 2019-06-03 13:51:25
+  from 'D:\html\bysj\application\views\templates\admin\admin_lsits.html' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.33',
+  'unifunc' => 'content_5cf525dd30ba81_24157496',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '6d4bd9f468e65963a041b4ef6e59db3f5fb573ef' => 
+    array (
+      0 => 'D:\\html\\bysj\\application\\views\\templates\\admin\\admin_lsits.html',
+      1 => 1559569880,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_5cf525dd30ba81_24157496 (Smarty_Internal_Template $_smarty_tpl) {
+?><!DOCTYPE html>
 <html class="x-admin-sm">
 
 <head>
@@ -10,21 +33,33 @@
         content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <link rel="stylesheet" href="/public/static/admin/css/font.css">
     <link rel="stylesheet" href="/public/static/admin/css/xadmin.css">
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/public/static/admin/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/public/static/admin/js/xadmin.js"></script>
-    <script type="text/javascript" src="/public/static/admin/js/cookie.js"></script>
+    <?php echo '<script'; ?>
+ type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"><?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ type="text/javascript" src="/public/static/admin/lib/layui/layui.js" charset="utf-8"><?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ type="text/javascript" src="/public/static/admin/js/xadmin.js"><?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ type="text/javascript" src="/public/static/admin/js/cookie.js"><?php echo '</script'; ?>
+>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+      <?php echo '<script'; ?>
+ src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"><?php echo '</script'; ?>
+>
+      <?php echo '<script'; ?>
+ src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"><?php echo '</script'; ?>
+>
     <![endif]-->
 </head>
 
 <body>
     <div class="x-nav">
         <span class="layui-breadcrumb">
-            <a href="">系统管理</a>
+            <a href="">用户管理</a>
             <a href="">管理员用户管理</a>
             <a>
                 <cite>列表</cite></a>
@@ -36,25 +71,24 @@
     <div class="x-body">
         <div class="layui-row">
             <form class="layui-form layui-col-md12 x-so">
-                <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input"
-                    value="<{$smarty.get.username|default:''}>">
+                <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="<?php echo (($tmp = @$_GET['username'])===null||$tmp==='' ? '' : $tmp);?>
+">
                 <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
             </form>
         </div>
         <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-            <button class="layui-btn" onclick="importExcel()"><i class="layui-icon"></i>导入</button>
             <button class="layui-btn" onclick="x_admin_show('添加用户','/admin/admin/add')"><i
                     class="layui-icon"></i>添加</button>
-            <span class="x-right" style="line-height:40px">共有数据：<{$total_rows}> 条</span>
+            <span class="x-right" style="line-height:40px">共有数据：<?php echo $_smarty_tpl->tpl_vars['total_rows']->value;?>
+ 条</span>
         </xblock>
-
+        
         <table class="layui-table x-admin">
             <thead>
                 <tr>
                     <th>
-                        <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i
-                                class="layui-icon">&#xe605;</i></div>
+                        <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
                     </th>
                     <th>ID</th>
                     <th>用户名</th>
@@ -65,62 +99,78 @@
                     <th>操作</th>
             </thead>
             <tbody>
-                <{foreach from=$aAdmin item=item}>
+                <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['aAdmin']->value, 'item');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['item']->value) {
+?>
                     <tr>
                         <td>
-                            <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='<{$item.id}>'><i
-                                    class="layui-icon">&#xe605;</i></div>
+                            <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='<?php echo $_smarty_tpl->tpl_vars['item']->value['admin_id'];?>
+'><i class="layui-icon">&#xe605;</i></div>
                         </td>
                         <td>
-                            <{$item.id}>
+                            <?php echo $_smarty_tpl->tpl_vars['item']->value['admin_id'];?>
+
                         </td>
                         <td>
-                            <{$item.username}>
+                            <?php echo $_smarty_tpl->tpl_vars['item']->value['username'];?>
+
                         </td>
                         <td>
-                            <{$item.realname}>
+                            <?php echo $_smarty_tpl->tpl_vars['item']->value['realname'];?>
+
                         </td>
                         <td>
-                            <{$item.email}>
+                            <?php echo $_smarty_tpl->tpl_vars['item']->value['email'];?>
+
                         </td>
                         <td>
-                            <{if $item.type> 0}>学院<{else}>
-                                    <{if $item.type eq -1}>学校<{elseif $item.type eq -2}>导师<{/if}> <{/if}> </td> <td
-                                                class="td-status">
-                                                <span
-                                                    class="layui-btn layui-btn-normal layui-btn-mini <{if $item.status neq 1}>layui-btn-disabled<{/if}>">
-                                                    <{if $item.status eq 1}>已启用<{else}>已停用<{/if}> </span> </td> <td
-                                                                class="td-manage">
-                                                                <a onclick="member_stop(this,'<{$item.id}>')"
-                                                                    href="javascript:;"
-                                                                    title="<{if $item.status neq 1}>启用<{else}>停用<{/if}>">
-                                                                    <i class="layui-icon">
-                                                                        <{if $item.status neq 1}>&#xe62f;<{else}>
-                                                                                &#xe601;<{/if}> </i> </a> <a title="编辑"
-                                                                                    onclick="x_admin_show('编辑','/admin/admin/update?id=<{$item.id}>')"
-                                                                                    href="javascript:;">
-                                                                                    <i class="layui-icon">&#xe642;</i>
-                                                                </a>
-                                                                <a title="删除" onclick="member_del(this,'<{$item.id}>')"
-                                                                    href="javascript:;">
-                                                                    <i class="layui-icon">&#xe640;</i>
-                                                                </a>
+                            <?php if ($_smarty_tpl->tpl_vars['item']->value['type'] == 1) {?>学校<?php } elseif ($_smarty_tpl->tpl_vars['item']->value['type'] == 2) {?>学院<?php } elseif ($_smarty_tpl->tpl_vars['item']->value['type'] == 3) {?>专业<?php }?> 
+                        </td> 
+                        <td class="td-status">
+                            <span class="layui-btn layui-btn-normal layui-btn-mini <?php if ($_smarty_tpl->tpl_vars['item']->value['status'] != 1) {?>layui-btn-disabled<?php }?>">
+                                <?php if ($_smarty_tpl->tpl_vars['item']->value['status'] == 1) {?>已启用<?php } else { ?>已停用<?php }?> 
+                            </span> 
+                        </td> 
+                        <td class="td-manage">
+                            <a onclick="member_stop(this,'<?php echo $_smarty_tpl->tpl_vars['item']->value['admin_id'];?>
+')" href="javascript:;" title="<?php if ($_smarty_tpl->tpl_vars['item']->value['status'] != 1) {?>启用<?php } else { ?>停用<?php }?>">
+                                <i class="layui-icon">
+                                    <?php if ($_smarty_tpl->tpl_vars['item']->value['status'] != 1) {?>&#xe62f;<?php } else { ?>&#xe601;<?php }?> 
+                                </i> 
+                            </a> 
+                            <a title="编辑" onclick="x_admin_show('编辑','/admin/admin/update?admin_id=<?php echo $_smarty_tpl->tpl_vars['item']->value['admin_id'];?>
+')" href="javascript:;">
+                                <i class="layui-icon">&#xe642;</i>
+                            </a>
+                            <a title="删除" onclick="member_del(this,'<?php echo $_smarty_tpl->tpl_vars['item']->value['admin_id'];?>
+')" href="javascript:;">
+                                <i class="layui-icon">&#xe640;</i>
+                            </a>
                         </td>
                     </tr>
-                    <{foreachelse}>
+                    <?php
+}
+} else {
+?>
                         <tr>
                             <td colspan="20" style="text-align: center;">
                                 暂无数据
                             </td>
                         </tr>
-                        <{/foreach}> </tbody> </table> <div class="page">
+                        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?> </tbody> </table> <div class="page">
                             <div>
-                                <{$page_links}>
+                                <?php echo $_smarty_tpl->tpl_vars['page_links']->value;?>
+
                             </div>
     </div>
 
     </div>
-    <script>
+    <?php echo '<script'; ?>
+>
 
         /*用户-停用*/
         function member_stop(obj, id) {
@@ -179,7 +229,7 @@
                 //发异步删除数据
                 $.ajax({
                     url: '/admin/admin/delete?act=do',
-                    data: { 'id': id },
+                    data: { 'admin_id': id },
                     dataType: 'JSON',
                     type: 'POST',
                     success: function (data) {
@@ -204,7 +254,7 @@
                     //捉到所有被选中的，发异步进行删除
                     $.ajax({
                         url: '/admin/admin/delete?act=do',
-                        data: { 'id': data },
+                        data: { 'admin_id': data },
                         dataType: 'JSON',
                         type: 'POST',
                         success: function (data) {
@@ -216,17 +266,15 @@
                             }
                         }
                     });
-
+                    
                 });
             } else {
                 layer.msg('未勾选', { icon: 2 });
-            }
+            } 
         }
-
-        function importExcel() {
-            location.href="/admin/teacher/import";
-        }
-    </script>
+    <?php echo '</script'; ?>
+>
 </body>
 
-</html>
+</html><?php }
+}

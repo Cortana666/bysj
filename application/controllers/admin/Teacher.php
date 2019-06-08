@@ -5,8 +5,10 @@ class Teacher extends MY_Controller {
 
 	public function __construct()
     {
-		parent::__construct();
+		parent::_constructAdmin();
 		$this->load->model('Model_teacher', 'oTeacher');
+		$this->load->model('Model_college', 'oCollege');
+		$this->load->model('Model_special', 'oSpecial');
     }
 
 	public function lists()
@@ -14,18 +16,27 @@ class Teacher extends MY_Controller {
 
 		$this->load->library('pagination');
 		$config = $this->config->item('app_page');
-		$config['base_url'] = '/admin/admin/lists';
+		$config['base_url'] = '/admin/teacher/lists';
 		$config['total_rows'] = $this->oTeacher->count($this->input->get(null, true));
 		$this->pagination->initialize($config);
 		$page_link = $this->pagination->create_links();
 
 		$aTeacher = $this->oTeacher->lists($this->input->get(null, true));
 
-		$this->assign('aAdmin', $aTeacher);
+		$aSpecial = array();
+		$aCollege = array();
+		if ($aTeacher) {
+			$aSpecial = array_column($this->oSpecial->top(array('spe_id'=>array_unique(array_filter(array_column($aTeacher, 'spe_id'))))), null, 'spe_id');
+			$aCollege = array_column($this->oCollege->top(array('col_id'=>array_unique(array_filter(array_column($aTeacher, 'col_id'))))), null, 'col_id');
+		}
+
+		$this->assign('aTeacher', $aTeacher);
+		$this->assign('aSpecial', $aSpecial);
+		$this->assign('aCollege', $aCollege);
 		$this->assign('page_links', $page_link);
 		$this->assign('total_rows', $config['total_rows']);
 
-		$this->display('admin/teacher_lsits.html');
+		$this->display('admin/teacher_lists.html');
 	}
 
 	public function add()
@@ -39,18 +50,17 @@ class Teacher extends MY_Controller {
 				$this->error($aResult['message']);
 			}
 
-			if ($this->oTeacher->get(array('username'=>$aReceive['username']))) {
-				$this->error('用户名已存在');
+			if ($this->oTeacher->get(array('code'=>$aReceive['code']))) {
+				$this->error('编号已存在');
+			}
+			if ($this->oTeacher->get(array('card_id'=>$aReceive['card_id']))) {
+				$this->error('身份证号已存在');
 			}
 			if ($this->oTeacher->get(array('email'=>$aReceive['email']))) {
 				$this->error('邮箱已被使用');
 			}
 			
-			if ($aReceive['type'] == 1) {
-				$aReceive['type'] = $aReceive['college_id'];
-			}
-			unset($aReceive['college_id']);
-			unset($aReceive['repass']);
+			$aReceive['password'] = substr($aReceive['card_id'], -6);
 			$chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 			$aReceive['salt'] = $chars[rand(0,35)].$chars[rand(0,35)].$chars[rand(0,35)].$chars[rand(0,35)];
 			$aReceive['password'] = md5(md5($aReceive['password']).$aReceive['salt']);
@@ -59,8 +69,15 @@ class Teacher extends MY_Controller {
 			if (!$aTeacher) {
 				$this->error('添加失败');
 			}
+
+			$this->oLog->add(array('content'=>'添加教师账号['.$aTeacher.']'.$aReceive['name']));
+
 			$this->success('添加成功');
 		}
+
+		$aCollege = $this->oCollege->top();
+
+		$this->assign('aCollege', $aCollege);
 
 		$this->display('admin/teacher_add.html');
     }
@@ -70,11 +87,11 @@ class Teacher extends MY_Controller {
 		
 		if ($this->input->get('act') == 'do') {
             
-            if (!$id = $this->input->post('id', true)) {
+            if (!$id = $this->input->post('tea_id', true)) {
                 $this->error('参数错误');
 			}
 
-			$aTeacher = $this->oTeacher->delete(array('id'=>$id));
+			$aTeacher = $this->oTeacher->delete(array('tea_id'=>$id));
 			if (!$aTeacher) {
 				$this->error('删除失败');
 			}
@@ -87,53 +104,49 @@ class Teacher extends MY_Controller {
     public function update()
 	{
 
-        if (!$iId = $this->input->get_post('id', true)) {
+        if (!$iId = $this->input->get_post('tea_id', true)) {
             $this->display('error.html');
         }
 
-        $aTeacher = $this->oTeacher->get(array('id'=>intval($iId)));
+        $aTeacher = $this->oTeacher->get(array('tea_id'=>intval($iId)));
 		
 		if ($this->input->get('act') == 'do') {
 			$aReceive = $this->input->post(null, true);
 
-			$aResult = $this->oForm->formValidation('teacher_update', $aReceive);
+			$aResult = $this->oForm->formValidation('teacher_add', $aReceive);
 			if ($aResult['code'] != 1) {
 				$this->error($aResult['message']);
 			}
 
-			if ($this->oTeacher->get(array('username'=>$aReceive['username'], 'where'=>'id != '.$aReceive['id']))) {
-				$this->error('用户名已存在');
+			if ($this->oTeacher->get(array('code'=>$aReceive['code'], 'where'=>'tea_id != '.$aReceive['tea_id']))) {
+				$this->error('编号已存在');
 			}
-			if ($this->oTeacher->get(array('email'=>$aReceive['email'], 'where'=>'id != '.$aReceive['id']))) {
+			if ($this->oTeacher->get(array('card_id'=>$aReceive['card_id'], 'where'=>'tea_id != '.$aReceive['tea_id']))) {
+				$this->error('身份证号已存在');
+			}
+			if ($this->oTeacher->get(array('email'=>$aReceive['email'], 'where'=>'tea_id != '.$aReceive['tea_id']))) {
 				$this->error('邮箱已被使用');
 			}
-
-			if ($aReceive['type'] == 1) {
-				$aReceive['type'] = $aReceive['college_id'];
-			}
-			unset($aReceive['repass']);
-			unset($aReceive['college_id']);
-            if (!$aReceive['password']) {
-                unset($aReceive['password']);
-            }else{
-                $aReceive['password'] = md5(md5($aReceive['password']).$aTeacher['salt']);
-            }
             
 			$aTeacher = $this->oTeacher->update($aReceive);
 			if (!$aTeacher) {
 				$this->error('修改失败');
 			}
 			$this->success('修改成功');
-        }
+		}
+		
+		$aCollege = $this->oCollege->top();
+		$aSpecial = $this->oSpecial->top(array('col_id'=>$aTeacher['col_id']));
 
-        $this->assign('aAdmin', $aTeacher);
+		$this->assign('aCollege', $aCollege);
+		$this->assign('aSpecial', $aSpecial);
+        $this->assign('aTeacher', $aTeacher);
 
 		$this->display('admin/teacher_update.html');
 	}
 
 	public function change()
 	{
-		
 		if ($this->input->get('act') == 'do') {
 			$aReceive = $this->input->post(null, true);
 			
@@ -142,15 +155,8 @@ class Teacher extends MY_Controller {
 				$this->error($aResult['message']);
 			}
 
-			$iType = $this->oTeacher->get(array('id'=>$aReceive['id'], 'select'=>'type'))['type'];
-			if ($iType == -1) {
-				if ($aReceive['status'] == 2) {
-					if ($this->oTeacher->count(array('type'=>-1, 'status'=>1)) <= 1) {
-						$this->error('学校管理最少要有一个账号开启');
-					}
-				}
-			}
-
+			$aReceive['tea_id'] = $aReceive['id'];
+			unset($aReceive['id']);
 			$aTeacher = $this->oTeacher->update($aReceive);
 			if (!$aTeacher) {
 				$this->error('修改失败');
@@ -170,16 +176,16 @@ class Teacher extends MY_Controller {
 				$oPhpExcel->getActiveSheet()->getStyle($value)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 			}
 			$oRow = $oPhpExcel->setActiveSheetIndex(0);
-			$oRow->setCellValue("A1","导师编号");
+			$oRow->setCellValue("A1","编号");
 			$oRow->setCellValue("B1","姓名");
-			$oRow->setCellValue("C1","性别");
+			$oRow->setCellValue("C1","性别(男填1女填2)");
 			$oRow->setCellValue("D1","年龄");
-			$oRow->setCellValue("E1","学院");
-			$oRow->setCellValue("F1","专业");
+			$oRow->setCellValue("E1","身份证号");
+			$oRow->setCellValue("F1","专业代码");
 			$oRow->setCellValue("G1","邮箱");
 
 			$oPhpExcel = PHPExcel_IOFactory::createWriter($oPhpExcel, 'Excel2007');
-			$sExcelName  = '指导教师导入模板.xlsx';
+			$sExcelName  = '教师导入模板.xlsx';
 			header("Pragma: public");
 			header("Expires: 0");
 			header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
@@ -222,37 +228,82 @@ class Teacher extends MY_Controller {
                 $this->smarty->error('数据表为空');
             }
 
+			$errorinfo = '';
             for ($row = 2; $row <= $highestRow; $row++){
                 for ($column = 'A'; $column != $highestColumm; $column++) {
 					$columnRowValue = $sheet->getCell($column.$row)->getFormattedValue();
-                    if ($column == 'A') {
-                        if (!$columnRowValue) {
-                            $this->smarty->error('导师编号不能为空');   
-						}
-                    } 
+                    if (!$columnRowValue) {
+						$errorinfo .= '第'.$row.'行'.$column.'列数据未填写<br/>';
+					}
 					$aData[($row - 2)][] = $columnRowValue;
                 }
-            }
+			}
+			if ($errorinfo) {
+				$this->error($errorinfo);   
+			}
 
 			$success = 0;
 			$error = 0;
 			$errorinfo = '';
-			$this->oTeacher->top();
+			$aTeacher = $this->oTeacher->top(array('select'=>'tea_id,code'));
+			if ($aTeacher) {
+				$aTeacher = array_column($aTeacher, null, 'code');
+				$aSpecial = $this->oSpecial->top(array('select'=>'code,spe_id,col_id'));
+				if ($aSpecial) {
+					$aSpecial = array_column($aSpecial, null, 'code');
+				}
+			}
 			foreach ($aData as $key => $value) {
-				$result = $this->oTeacher->update(array(
-					'id'=>$value[0], 'written_score'=>$value[3], 'interview_score'=>$value[4], 'total_score'=>$value[5]));
+				if (!isset($aSpecial[$value[5]])) {
+					$error ++;
+					$errorinfo .= '第'.($key+2).'行专业不存在，请先添加专业<br>';
+					continue;
+				}
+				if (isset($aTeacher[$value[0]])) {
+					$result = $this->oTeacher->update(array(
+						'tea_id'=>$aTeacher[$value[0]]['tea_id'], 
+						'code'=>$value[0], 
+						'name'=>$value[1], 
+						'sex'=>$value[2],
+						'age'=>$value[3],
+						'card_id'=>$value[4], 
+						'email'=>$value[6],
+						'spe_id'=>$aSpecial[$value[5]]['spe_id'],
+						'col_id'=>$aSpecial[$value[5]]['col_id']
+					));
+				}else{
+					$password = substr($value[4], -6);
+					$chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+					$salt = $chars[rand(0,35)].$chars[rand(0,35)].$chars[rand(0,35)].$chars[rand(0,35)];
+					$password = md5(md5($password).$salt);
+					$result = $this->oTeacher->add(array(
+						'code'=>$value[0], 
+						'name'=>$value[1], 
+						'sex'=>$value[2],
+						'age'=>$value[3],
+						'card_id'=>$value[4], 
+						'email'=>$value[6],
+						'spe_id'=>$aSpecial[$value[5]]['spe_id'],
+						'col_id'=>$aSpecial[$value[5]]['col_id'],
+						'password'=>$password,
+						'salt'=>$salt
+					));
+				}
 				if ($result) {
 					$success ++;
 				}else{
 					$error ++;
-					$errorinfo .= $this->oEnrollInfo->date_error()."<br>";
+					$errorinfo .= '第'.($key+2).'行数据操作失败，请检查数据<br>';
 				}
 			}
 
-            $this->oLogAct->add("导入成绩：成功{$success}条,失败{$error}条");
-            $this->smarty->success("导入成绩完成，成功: $success  失败: $error  失败详情: $errorinfo", '/school/push/score/lists');
+			$this->oLog->add(array('content'=>'导入教师：成功'.$success.'条,失败'.$error.'条'));
+			if ($errorinfo) {
+				$this->error($errorinfo);
+			}
+            $this->success('', '/admin/teacher/lists');
 		}
 		
-		$this->display('admin/import.html');
+		$this->display('admin/teacher_import.html');
 	}
 }

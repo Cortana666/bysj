@@ -1,0 +1,22 @@
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="/admin/home/index">毕业设计管理系统 v1</a></div>
+    <div class="left_open">
+        <i title="展开左侧栏" class="iconfont">&#xe699;</i>
+    </div>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
+            <a href="javascript:;"><{$smarty.session.teacher.name|default:'(未知)'}></a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <!-- <dd><a onclick="x_admin_show('个人信息','/admin/user/index')">个人信息</a></dd>
+                <dd><a onclick="x_admin_show('切换帐号','/admin/user/change')">切换帐号</a></dd> -->
+                <dd><a href="/teacher/user/logout">退出</a></dd>
+            </dl>
+        </li>
+        <!-- <li class="layui-nav-item to-index"><a href="/teacher/user/index">导师前台</a></li> -->
+        <!-- <li class="layui-nav-item to-index"><a href="/student/user/index">学生前台</a></li> -->
+    </ul>
+
+</div>
+<!-- 顶部结束 -->

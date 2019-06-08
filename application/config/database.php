@@ -80,7 +80,7 @@ $db['default'] = array(
 	'password' => 'Yangjian.',
 	'database' => 'graduation_project',
 	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
+	'dbprefix' => 'gp_',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,

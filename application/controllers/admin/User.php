@@ -5,7 +5,7 @@ class User extends MY_Controller {
 
 	public function __construct()
     {
-        parent::__construct();
+        parent::_constructAdmin();
     }
 
 	public function login()
@@ -14,7 +14,6 @@ class User extends MY_Controller {
 			$data = $this->input->post(null, true);
 			$data['status'] = 1;
 			
-			$this->load->model('Form', 'oForm');
 			$result = $this->oForm->formValidation('admin_login', $data);
 			if ($result['code'] != 1) {
 				echo json_encode($result);exit;
@@ -35,15 +34,12 @@ class User extends MY_Controller {
 						$result['code'] = 2;
 						$result['message'] = '密码错误';
 					}else{
-						$this->load->library('session');
-						$aSession['user']['id'] = $aAdmin['id'];
+						$aSession['user']['id'] = $aAdmin['adm_id'];
 						$aSession['user']['username'] = $aAdmin['username'];
 						$aSession['user']['realname'] = $aAdmin['realname'];
-						if ($aAdmin['type'] > 0) {
-							$aSession['user']['col_id'] = $aAdmin['type'];
-						}else{
-							$aSession['user']['type'] = $aAdmin['type'];
-						}
+						$aSession['user']['type'] = $aAdmin['type'];
+						$aSession['user']['type_id'] = $aAdmin['type_id'];
+
 						$this->session->set_userdata($aSession);
 
 						$this->oLog->add(array('content'=>'用户登录操作'));

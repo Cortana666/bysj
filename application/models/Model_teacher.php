@@ -9,8 +9,24 @@ class Model_teacher extends CI_Model {
     }
 
     public function _init($val = array()){
-        if (!empty($val['id'])) {
-            $this->db->where_in('id', $val['id']);
+        if (!empty($val['tea_id'])) {
+            if (is_array($val['tea_id'])) {
+                $this->db->where_in('tea_id', $val['tea_id']);
+            }else{
+                $this->db->where('tea_id', $val['tea_id']);
+            }
+        }
+        if (!empty($val['code'])) {
+            $this->db->where('code', $val['code']);
+        }
+        if (!empty($val['name'])) {
+            $this->db->like('name', $val['name']);
+        }
+        if (!empty($val['card_id'])) {
+            $this->db->where('card_id', $val['card_id']);
+        }
+        if (!empty($val['email'])) {
+            $this->db->where('email', $val['email']);
         }
         if (!empty($val['status'])) {
             $this->db->where('status', $val['status']);
@@ -21,12 +37,24 @@ class Model_teacher extends CI_Model {
         if (!empty($val['select'])) {
             $this->db->select($val['select']);
         }
+        if ($this->session->user['type'] == 2) {
+            $this->db->where('col_id = '.$this->session->user['type_id']);
+        }
+        if ($this->session->user['type'] == 3) {
+            $this->db->where('spe_id = '.$this->session->user['type_id']);
+        }
     }
 
 	public function get($val = array())
 	{
         $this->_init($val);
         return $this->db->get('teacher')->row_array();
+    }
+
+    public function top($val = array())
+	{
+        $this->_init($val);
+        return $this->db->get('teacher')->result_array();
     }
     
     public function count($val = array())
@@ -46,7 +74,8 @@ class Model_teacher extends CI_Model {
     
     public function add($val = array())
 	{
-        $val['create_time'] = date('Y-m-d H:i:s');
+        $val['time'] = date('Y-m-d H:i:s');
+        $val['status'] = 1;
         return $this->db->insert('teacher', $val);
     }
     
@@ -58,7 +87,7 @@ class Model_teacher extends CI_Model {
     
     public function update($val = array())
 	{
-        $this->db->where('id', $val['id']);
+        $this->db->where('tea_id', $val['tea_id']);
         return $this->db->update('teacher', $val);
     }
 }
